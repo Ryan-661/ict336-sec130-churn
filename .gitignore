@@ -1,0 +1,19 @@
+# Block ALL Markdown files from ever being tracked or pushed to GitHub
+*.md
+*.MD
+
+# Python & Virtual Environments
+.venv/
+venv/
+ENV/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter / Colab checkpoints
+.ipynb_checkpoints/
+
+# OS & Secrets
+.env
+.DS_Store
+Thumbs.db
