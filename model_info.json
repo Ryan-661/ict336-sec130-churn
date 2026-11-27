@@ -1,0 +1,388 @@
+{
+  "project": {
+    "title": "Predicting Monthly Customer Churn for Subscription Retention Teams in Digital Telecom & Subscription Services",
+    "course": "ICT336 Machine Learning (Semester 1/2569)",
+    "section": "Section 130 (SG)",
+    "student": "Zar Ni Aung (Ryan / Iver, ID: 6610192)",
+    "instructor": "Dr. Rawinan Praditsangthong"
+  },
+  "environment": {
+    "python_version": "3.13.18",
+    "sklearn_version": "1.6.1",
+    "pandas_version": "2.2.3",
+    "numpy_version": "2.4.6",
+    "joblib_version": "1.6.0",
+    "matplotlib_version": "3.10.0",
+    "random_state": 42
+  },
+  "dataset": {
+    "name": "IBM Telco Customer Churn Dataset",
+    "source_url": "https://raw.githubusercontent.com/IBM/telco-customer-churn-on-icp4d/master/data/Telco-Customer-Churn.csv",
+    "repository_url": "https://github.com/IBM/telco-customer-churn-on-icp4d",
+    "licence": "IBM Sample Data / Public Open Educational Licence",
+    "total_rows": 7043,
+    "total_columns": 21,
+    "predictor_count": 19,
+    "dropped_columns": [
+      "customerID"
+    ],
+    "coerced_blank_total_charges": 11,
+    "train_rows": 5634,
+    "test_rows": 1409,
+    "overall_churn_rate": 0.2654,
+    "train_churn_rate": 0.2654,
+    "test_churn_rate": 0.2654,
+    "benchmarks": {
+      "contract_churn_rate_pct": {
+        "Month-to-month": 42.71,
+        "One year": 11.27,
+        "Two year": 2.83
+      },
+      "internet_churn_rate_pct": {
+        "Fiber optic": 41.89,
+        "DSL": 18.96,
+        "No": 7.4
+      },
+      "median_tenure_retained_months": 38.0,
+      "median_tenure_churned_months": 10.0,
+      "median_monthly_charges_retained": 64.43,
+      "median_monthly_charges_churned": 79.65,
+      "mean_monthly_charges_all": 64.76
+    }
+  },
+  "cv_model_comparison": [
+    {
+      "Model": "LogisticRegression (balanced)",
+      "CV_F1 (Main Metric)": 0.6286,
+      "CV_Recall": 0.8013,
+      "CV_Precision": 0.5174,
+      "CV_ROC_AUC": 0.846,
+      "CV_Accuracy": 0.7488,
+      "Meets Proposal Target (F1 >= 0.60)?": "Yes"
+    },
+    {
+      "Model": "GradientBoostingClassifier",
+      "CV_F1 (Main Metric)": 0.5902,
+      "CV_Recall": 0.5338,
+      "CV_Precision": 0.6606,
+      "CV_ROC_AUC": 0.8478,
+      "CV_Accuracy": 0.8033,
+      "Meets Proposal Target (F1 >= 0.60)?": "No"
+    },
+    {
+      "Model": "RandomForestClassifier (balanced)",
+      "CV_F1 (Main Metric)": 0.5342,
+      "CV_Recall": 0.4649,
+      "CV_Precision": 0.6292,
+      "CV_ROC_AUC": 0.8212,
+      "CV_Accuracy": 0.7852,
+      "Meets Proposal Target (F1 >= 0.60)?": "No"
+    },
+    {
+      "Model": "DummyClassifier (Most Frequent)",
+      "CV_F1 (Main Metric)": 0.0,
+      "CV_Recall": 0.0,
+      "CV_Precision": 0.0,
+      "CV_ROC_AUC": 0.5,
+      "CV_Accuracy": 0.7346,
+      "Meets Proposal Target (F1 >= 0.60)?": "No"
+    }
+  ],
+  "tuning": {
+    "winning_model": "Tuned LogisticRegression",
+    "winning_family": "LogisticRegression",
+    "logistic_regression": {
+      "best_params": {
+        "classifier__C": 0.05,
+        "classifier__class_weight": "balanced",
+        "classifier__penalty": "l2",
+        "classifier__solver": "lbfgs"
+      },
+      "best_cv_f1": 0.6302
+    },
+    "gradient_boosting": {
+      "best_params": {
+        "classifier__learning_rate": 0.05,
+        "classifier__max_depth": 3,
+        "classifier__n_estimators": 150,
+        "classifier__subsample": 0.8
+      },
+      "best_cv_f1": 0.5936
+    },
+    "selected_threshold": 0.6,
+    "threshold_sweep": [
+      {
+        "Threshold": 0.4,
+        "CV_F1": 0.6091,
+        "CV_Recall": 0.8615,
+        "CV_Precision": 0.4711,
+        "SeniorCitizen_4_5_Ratio": 0.6036,
+        "SeniorCitizen_FPR_Gap": 0.2603,
+        "Gender_4_5_Ratio": 0.9867
+      },
+      {
+        "Threshold": 0.45,
+        "CV_F1": 0.62,
+        "CV_Recall": 0.8288,
+        "CV_Precision": 0.4952,
+        "SeniorCitizen_4_5_Ratio": 0.5667,
+        "SeniorCitizen_FPR_Gap": 0.2709,
+        "Gender_4_5_Ratio": 0.9937
+      },
+      {
+        "Threshold": 0.5,
+        "CV_F1": 0.6303,
+        "CV_Recall": 0.796,
+        "CV_Precision": 0.5217,
+        "SeniorCitizen_4_5_Ratio": 0.5432,
+        "SeniorCitizen_FPR_Gap": 0.2614,
+        "Gender_4_5_Ratio": 1.0
+      },
+      {
+        "Threshold": 0.55,
+        "CV_F1": 0.6374,
+        "CV_Recall": 0.7625,
+        "CV_Precision": 0.5476,
+        "SeniorCitizen_4_5_Ratio": 0.5253,
+        "SeniorCitizen_FPR_Gap": 0.2456,
+        "Gender_4_5_Ratio": 0.9736
+      },
+      {
+        "Threshold": 0.6,
+        "CV_F1": 0.6363,
+        "CV_Recall": 0.7097,
+        "CV_Precision": 0.5766,
+        "SeniorCitizen_4_5_Ratio": 0.5008,
+        "SeniorCitizen_FPR_Gap": 0.2123,
+        "Gender_4_5_Ratio": 0.9654
+      }
+    ]
+  },
+  "holdout_test_evaluation": {
+    "test_rows": 1409,
+    "selected_threshold": 0.6,
+    "final_model": {
+      "name": "Tuned LogisticRegression",
+      "f1": 0.6105,
+      "recall": 0.6979,
+      "precision": 0.5426,
+      "roc_auc": 0.84,
+      "accuracy": 0.7637,
+      "confusion_matrix": {
+        "tn": 815,
+        "fp": 220,
+        "fn": 113,
+        "tp": 261
+      }
+    },
+    "dummy_baseline": {
+      "name": "DummyClassifier (Most Frequent)",
+      "f1": 0.0,
+      "recall": 0.0,
+      "precision": 0.0,
+      "roc_auc": 0.5,
+      "accuracy": 0.7346
+    },
+    "f1_gain_percentage_points": 61.05,
+    "proposal_target_f1": 0.6,
+    "proposal_min_gain_pp": 20.0,
+    "meets_success_criterion": true
+  },
+  "top_features": [
+    {
+      "rank": 1,
+      "feature": "Account Tenure (Months)",
+      "coefficient": -0.8646,
+      "abs_importance": 0.8646,
+      "odds_ratio": 0.4212,
+      "direction": "Protects Retention (-)"
+    },
+    {
+      "rank": 2,
+      "feature": "Contract = Month-to-month",
+      "coefficient": 0.6485,
+      "abs_importance": 0.6485,
+      "odds_ratio": 1.9126,
+      "direction": "Increases Churn Risk (+)"
+    },
+    {
+      "rank": 3,
+      "feature": "Contract = Two year",
+      "coefficient": -0.5928,
+      "abs_importance": 0.5928,
+      "odds_ratio": 0.5528,
+      "direction": "Protects Retention (-)"
+    },
+    {
+      "rank": 4,
+      "feature": "InternetService = Fiber optic",
+      "coefficient": 0.3658,
+      "abs_importance": 0.3658,
+      "odds_ratio": 1.4417,
+      "direction": "Increases Churn Risk (+)"
+    },
+    {
+      "rank": 5,
+      "feature": "InternetService = DSL",
+      "coefficient": -0.2953,
+      "abs_importance": 0.2953,
+      "odds_ratio": 0.7443,
+      "direction": "Protects Retention (-)"
+    },
+    {
+      "rank": 6,
+      "feature": "PaymentMethod = Electronic check",
+      "coefficient": 0.282,
+      "abs_importance": 0.282,
+      "odds_ratio": 1.3257,
+      "direction": "Increases Churn Risk (+)"
+    },
+    {
+      "rank": 7,
+      "feature": "OnlineSecurity = No",
+      "coefficient": 0.2526,
+      "abs_importance": 0.2526,
+      "odds_ratio": 1.2873,
+      "direction": "Increases Churn Risk (+)"
+    },
+    {
+      "rank": 8,
+      "feature": "TechSupport = No",
+      "coefficient": 0.2222,
+      "abs_importance": 0.2222,
+      "odds_ratio": 1.2488,
+      "direction": "Increases Churn Risk (+)"
+    },
+    {
+      "rank": 9,
+      "feature": "Monthly Charges ($)",
+      "coefficient": 0.1826,
+      "abs_importance": 0.1826,
+      "odds_ratio": 1.2003,
+      "direction": "Increases Churn Risk (+)"
+    },
+    {
+      "rank": 10,
+      "feature": "OnlineSecurity = Yes",
+      "coefficient": -0.182,
+      "abs_importance": 0.182,
+      "odds_ratio": 0.8336,
+      "direction": "Protects Retention (-)"
+    }
+  ],
+  "error_analysis": [
+    {
+      "Outcome_Group": "TP (Caught Churner)",
+      "Count": 261,
+      "Share_of_Test_Pct": 18.52,
+      "Avg_Churn_Prob": 0.8,
+      "Median_Tenure_Mos": 5.0,
+      "Avg_MonthlyCharges": 77.13,
+      "Pct_Month_to_Month": 98.47,
+      "Pct_Fiber_Optic": 81.61,
+      "Pct_Senior_65Plus": 31.03
+    },
+    {
+      "Outcome_Group": "FN (Missed Churner)",
+      "Count": 113,
+      "Share_of_Test_Pct": 8.02,
+      "Avg_Churn_Prob": 0.4,
+      "Median_Tenure_Mos": 24.0,
+      "Avg_MonthlyCharges": 62.69,
+      "Pct_Month_to_Month": 63.72,
+      "Pct_Fiber_Optic": 34.51,
+      "Pct_Senior_65Plus": 15.04
+    },
+    {
+      "Outcome_Group": "FP (Loyal Wrongly Flagged)",
+      "Count": 220,
+      "Share_of_Test_Pct": 15.61,
+      "Avg_Churn_Prob": 0.74,
+      "Median_Tenure_Mos": 15.0,
+      "Avg_MonthlyCharges": 78.46,
+      "Pct_Month_to_Month": 97.73,
+      "Pct_Fiber_Optic": 77.27,
+      "Pct_Senior_65Plus": 25.91
+    },
+    {
+      "Outcome_Group": "TN (Correctly Retained)",
+      "Count": 815,
+      "Share_of_Test_Pct": 57.84,
+      "Avg_Churn_Prob": 0.21,
+      "Median_Tenure_Mos": 48.0,
+      "Avg_MonthlyCharges": 56.23,
+      "Pct_Month_to_Month": 28.1,
+      "Pct_Fiber_Optic": 23.44,
+      "Pct_Senior_65Plus": 8.22
+    }
+  ],
+  "fairness_audit": {
+    "cv_preview_untuned_050": {
+      "senior_citizen_four_fifths_ratio": 0.5459,
+      "senior_citizen_fpr_gap": 0.273,
+      "gender_four_fifths_ratio": 0.9976,
+      "gender_fpr_gap": 0.0078
+    },
+    "holdout_test_final": {
+      "threshold": 0.6,
+      "senior_citizen": {
+        "four_fifths_ratio": 0.4649,
+        "retained_four_fifths_ratio": 0.5322,
+        "fpr_gap": 0.2808,
+        "tpr_gap": 0.1743,
+        "status": "INVESTIGATE (< 0.80)",
+        "groups": [
+          {
+            "Group": "65+",
+            "n": 222,
+            "Actual_Churn_Rate": 0.4414,
+            "Selection_Rate (Flagged)": 0.6216,
+            "Retained_Rate (Pred=No)": 0.3784,
+            "TPR": 0.8265,
+            "FPR": 0.4597,
+            "Precision": 0.587
+          },
+          {
+            "Group": "Under 65",
+            "n": 1187,
+            "Actual_Churn_Rate": 0.2325,
+            "Selection_Rate (Flagged)": 0.289,
+            "Retained_Rate (Pred=No)": 0.711,
+            "TPR": 0.6522,
+            "FPR": 0.1789,
+            "Precision": 0.5248
+          }
+        ]
+      },
+      "gender": {
+        "four_fifths_ratio": 0.9878,
+        "retained_four_fifths_ratio": 0.9936,
+        "fpr_gap": 0.0078,
+        "tpr_gap": 0.0181,
+        "status": "PASS (>= 0.80)",
+        "groups": [
+          {
+            "Group": "Female",
+            "n": 687,
+            "Actual_Churn_Rate": 0.2809,
+            "Selection_Rate (Flagged)": 0.3435,
+            "Retained_Rate (Pred=No)": 0.6565,
+            "TPR": 0.6891,
+            "FPR": 0.2085,
+            "Precision": 0.5636
+          },
+          {
+            "Group": "Male",
+            "n": 722,
+            "Actual_Churn_Rate": 0.2507,
+            "Selection_Rate (Flagged)": 0.3393,
+            "Retained_Rate (Pred=No)": 0.6607,
+            "TPR": 0.7072,
+            "FPR": 0.2163,
+            "Precision": 0.5224
+          }
+        ]
+      }
+    }
+  }
+}

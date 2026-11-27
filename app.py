@@ -922,6 +922,14 @@ def main() -> None:
             cv_df = pd.DataFrame(info["cv_model_comparison"])
             st.dataframe(cv_df, use_container_width=True, hide_index=True)
 
+            with st.expander("View GridSearchCV Winner & Threshold Sweep (0.40–0.60 on X_train)"):
+                tuning_info = info["tuning"]
+                st.caption(
+                    f"Winner: **{tuning_info['winning_model']}** (`5-Fold CV F1 = {tuning_info['logistic_regression']['best_cv_f1']:.4f}`) · "
+                    f"Best Params: `{tuning_info['logistic_regression']['best_params']}`"
+                )
+                st.dataframe(pd.DataFrame(tuning_info["threshold_sweep"]), use_container_width=True, hide_index=True)
+
             st.markdown("#### 3. Top 3 Churn Drivers")
             for drv in info["top_features"][:3]:
                 odds_txt = f" · Odds Ratio `{drv['odds_ratio']:.2f}×`" if drv.get("odds_ratio") is not None else ""
